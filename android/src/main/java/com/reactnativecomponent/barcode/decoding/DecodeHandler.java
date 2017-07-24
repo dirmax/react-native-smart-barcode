@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -32,7 +31,6 @@ import com.reactnativecomponent.barcode.CaptureView;
 import com.reactnativecomponent.barcode.R;
 import com.reactnativecomponent.barcode.camera.CameraManager;
 import com.reactnativecomponent.barcode.camera.PlanarYUVLuminanceSource;
-
 
 import java.util.Hashtable;
 
@@ -115,19 +113,34 @@ DecodeHandler extends Handler {
 	  
     long start = System.currentTimeMillis();
     Result rawResult = null;
-//     PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
+//    PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
 //     PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, height, width);
     // switch width and height
-//    Log.i("Test","DecodeHandler_height:"+height+",width:"+width);
-    PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, height, width);
-    
+//    Log.i("rotatedData", String.valueOf(rotatedData));
+    PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, height, width);
+    PlanarYUVLuminanceSource sourceRotated = CameraManager.get().buildLuminanceSource(rotatedData, height, width);
+
     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+    BinaryBitmap bitmapRotated = new BinaryBitmap(new HybridBinarizer(sourceRotated));
+
     try {
       rawResult = multiFormatReader.decodeWithState(bitmap);
     } catch (ReaderException re) {
       // continue
     } finally {
       multiFormatReader.reset();
+    }
+
+    if (rawResult == null) {
+
+      try {
+        rawResult = multiFormatReader.decodeWithState(bitmapRotated);
+      } catch (ReaderException re) {
+        // continue
+      } finally {
+        multiFormatReader.reset();
+      }
+
     }
 
     if (rawResult != null) {
