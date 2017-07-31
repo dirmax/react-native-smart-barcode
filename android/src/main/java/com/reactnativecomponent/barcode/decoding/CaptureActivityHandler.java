@@ -17,18 +17,16 @@
 package com.reactnativecomponent.barcode.decoding;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.reactnativecomponent.barcode.CaptureView;
+import com.reactnativecomponent.barcode.view.CaptureView;
 import com.reactnativecomponent.barcode.R;
 import com.reactnativecomponent.barcode.camera.CameraManager;
-import com.reactnativecomponent.barcode.view.ViewfinderResultPointCallback;
-
+import com.reactnativecomponent.barcode.view.ViewfinderView;
 
 import java.util.Vector;
 
@@ -52,10 +50,9 @@ public final class CaptureActivityHandler extends Handler {
     }
 
     public CaptureActivityHandler(CaptureView captureView, Vector<BarcodeFormat> decodeFormats,
-                                  String characterSet) {
+                                  String characterSet, ViewfinderView viewFinder) {
         this.captureView = captureView;
-        decodeThread = new DecodeThread(captureView, decodeFormats, characterSet,
-                new ViewfinderResultPointCallback(captureView.getViewfinderView()));
+        decodeThread = new DecodeThread(captureView, decodeFormats, characterSet, viewFinder);
         decodeThread.start();
         state = State.SUCCESS;
 

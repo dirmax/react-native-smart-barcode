@@ -20,11 +20,10 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
-import android.graphics.SurfaceTexture;
 
 import java.io.IOException;
 
@@ -53,7 +52,9 @@ public final class CameraManager {
   public static int y;
 
   private static CameraManager cameraManager;
-  private int focusTime=500;
+  private int focusTime = 500;
+  protected int zoomLevel = 0;
+
 
   static final int SDK_INT; // Later we can use Build.VERSION.SDK_INT
   static {
@@ -107,6 +108,9 @@ private final Context context;
   public void setFocusTime(int focusTime) {
     this.focusTime = focusTime;
   }
+  public void setZoomLevel(int zoomLevel) {
+    this.zoomLevel = zoomLevel;
+  }
 
   private CameraManager(Context context) {
 
@@ -148,7 +152,13 @@ private final Context context;
         initialized = true;
         configManager.initFromCameraParameters(camera);
       }
+
       configManager.setDesiredCameraParameters(camera);
+
+      Camera.Parameters parameters = camera.getParameters();
+      parameters.setZoom(zoomLevel);
+      camera.setParameters(parameters);
+
 
 //      SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 //      if (prefs.getBoolean(PreferencesActivity.KEY_FRONT_LIGHT, false)) {
@@ -242,25 +252,20 @@ private final Context context;
     Point screenResolution = configManager.getScreenResolution();
 //    int x=this.x+screenResolution.x;
 //   int y=this.y+screenResolution.y;
-    int x=this.x;
-   int y=this.y;
+    //int x=this.x;
+   //int y=this.y;
 //    Log.i(TAG, "x: " + this.x+",y:"+this.y);
+
+
+      int x = screenResolution.x;
+      int y = screenResolution.y;
 
       if (camera == null) {
         return null;
       }
       int width = x * 3 / 4;
-      if (width < MIN_FRAME_WIDTH) {
-        width = MIN_FRAME_WIDTH;
-      } else if (width > MAX_FRAME_WIDTH) {
-        width = MAX_FRAME_WIDTH;
-      }
       int height = y * 3 / 4;
-      if (height < MIN_FRAME_HEIGHT) {
-        height = MIN_FRAME_HEIGHT;
-      } else if (height > MAX_FRAME_HEIGHT) {
-        height = MAX_FRAME_HEIGHT;
-      }
+
       int leftOffset = (x - width) / 2;
       int topOffset = (y - height) / 2;
      // int topOffset = (screenResolution.y - height)/3;

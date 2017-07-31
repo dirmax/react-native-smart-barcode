@@ -27,7 +27,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.reactnativecomponent.barcode.CaptureView;
+import com.reactnativecomponent.barcode.view.CaptureView;
 import com.reactnativecomponent.barcode.R;
 import com.reactnativecomponent.barcode.camera.CameraManager;
 import com.reactnativecomponent.barcode.camera.PlanarYUVLuminanceSource;

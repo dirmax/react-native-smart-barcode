@@ -18,14 +18,11 @@ package com.reactnativecomponent.barcode.decoding;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.reactnativecomponent.barcode.CaptureView;
-import com.reactnativecomponent.barcode.R;
+import com.reactnativecomponent.barcode.view.CaptureView;
 
 
 import java.util.Hashtable;

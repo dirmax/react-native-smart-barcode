@@ -1,6 +1,4 @@
-package com.reactnativecomponent.barcode;
-
-import android.util.Log;
+package com.reactnativecomponent.barcode.event;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
@@ -9,10 +7,10 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.zxing.BarcodeFormat;
 
 
-public class QRCodeResultEvent extends Event<QRCodeResultEvent> {
+public class BarcodeResultEvent extends Event<BarcodeResultEvent> {
         String result;
     BarcodeFormat format;
-    public QRCodeResultEvent(int viewTag, long timestampMs,String result,BarcodeFormat format) {
+    public BarcodeResultEvent(int viewTag, long timestampMs, String result, BarcodeFormat format) {
 //        super(viewTag, timestampMs);
         super(viewTag);
         this.result=result;
