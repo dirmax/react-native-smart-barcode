@@ -37,4 +37,4 @@ public class RCTCapturePackage implements ReactPackage {
         return Arrays.<ViewManager>asList(captureManager);
     }
 
-    }
+}

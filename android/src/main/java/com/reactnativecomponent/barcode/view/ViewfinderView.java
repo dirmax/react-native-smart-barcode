@@ -44,7 +44,6 @@ public final class ViewfinderView extends View implements ResultPointCallback
     public ViewfinderView(Context context)
     {
         super(context);
-
         paint = new Paint();
         possibleResultPoints = new HashSet<ResultPoint>(5);
     }

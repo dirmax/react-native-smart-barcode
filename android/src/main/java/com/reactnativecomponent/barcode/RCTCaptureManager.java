@@ -22,7 +22,6 @@ import java.util.Map;
 public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
 
     private static final String REACT_CLASS = "CaptureView";
-    public static final int CHANGE_SHOW = 0;
     CaptureView cap;
 
 
@@ -50,7 +49,6 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setDecodeFormats(result);
 
     }
-
 
     @ReactProp(name = "possiblePointsColor")
     public void setPossiblePointsColor(CaptureView view, String color) {

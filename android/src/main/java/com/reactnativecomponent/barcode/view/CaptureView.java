@@ -514,26 +514,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
 
-
-    /**
-     * 颜色换算
-     */
-    public int reSetColor(int startInt) {
-
-        int startA = (startInt >> 24) & 0xff;
-        int startR = (startInt >> 16) & 0xff;
-        int startG = (startInt >> 8) & 0xff;
-        int startB = startInt & 0xff;
-
-        int endA = ((startInt / 2) >> 24) & 0xff;
-        return ((startA + (endA - startA)) << 24)
-                | (startR << 16)
-                | (startG << 8)
-                | (startB);
-
-
-    }
-
     public String ShowResult(Intent intent) {
         return intent.getData().toString();
     }
