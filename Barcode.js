@@ -5,15 +5,15 @@
  * Copyright (c) 2016 react-native-component <moonsunfall@aliyun.com>
  */
 import React, {
-    Component,
+    Component
 } from 'react';
 import PropTypes from 'prop-types';
 import {
+	Platform,
     View,
     requireNativeComponent,
     NativeModules,
     AppState,
-    Platform,
 	StyleSheet,
 	Dimensions,
 	Image,
@@ -50,9 +50,9 @@ export default class Barcode extends Component {
     render() {
 		
 		let {height, width} = Dimensions.get('window'),
-			_widthPreview = (width * 3 / 4),
-			_borderVertical = (width - _widthPreview) / 2,
-			_borderHorizontal = (height - _widthPreview) / 2 - 20
+			_widthPreview = parseInt(width * 3 / 4),
+			_borderVertical = parseInt((width - _widthPreview) / 2),
+			_borderHorizontal = parseInt((height - _widthPreview - ((Platform.OS === 'ios') ? 0 : 20)) / 2)
 		;
 		
 		let icoFlash = this.state.isEnableFlash 
@@ -62,12 +62,36 @@ export default class Barcode extends Component {
         return (
 			<View style={styles.container} >
 	            <NativeBarCode {...this.props} />
-				<View style={[styles.overlay, {
-					borderLeftWidth: _borderVertical, 
-					borderRightWidth: _borderVertical,
-					borderTopWidth: _borderHorizontal,
-					borderBottomWidth: _borderHorizontal
-				}]}>
+				<View style={styles.container} name="bacgroundOverlay">
+					<View style={[styles.overlay, {
+						top: 0,
+						width: width,
+						height: _borderHorizontal 	
+					}]}/>
+					<View style={[styles.overlay, {
+						top: _borderHorizontal + _widthPreview,
+						width: width,
+						height: _borderHorizontal 	
+					}]}/>
+					<View style={[styles.overlay, {
+						top: _borderHorizontal,
+						width: _borderVertical,
+						height: _widthPreview 	
+					}]}/>
+					<View style={[styles.overlay, {
+						top: _borderHorizontal,
+						right: 0,
+						width: _borderVertical,
+						height: _widthPreview 	
+					}]}/>
+				</View>
+				<View style={[{
+					position: 'absolute',
+					top: _borderHorizontal,
+					left: _borderVertical,
+					width: _widthPreview,
+					height: _widthPreview,
+				}]}>	
 					<Image 
 						source={require('./assets/img/ico_barcode.png')}
 						style={[styles.imgBarcode, {width: _widthPreview, height: 30}]}
@@ -171,11 +195,7 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		position: 'absolute',
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-    	borderColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
 	},
 	overlayBorder: {
 		position: 'absolute',

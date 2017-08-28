@@ -12,17 +12,22 @@
 
 RCT_EXPORT_MODULE(RCTBarcode)
 
-RCT_EXPORT_VIEW_PROPERTY(scannerRectWidth, NSInteger)
-
-RCT_EXPORT_VIEW_PROPERTY(scannerRectHeight, NSInteger)
-
-RCT_EXPORT_VIEW_PROPERTY(scannerRectTop, NSInteger)
-
-RCT_EXPORT_VIEW_PROPERTY(scannerRectLeft, NSInteger)
-
-RCT_EXPORT_VIEW_PROPERTY(scannerLineInterval, NSInteger)
-
+RCT_EXPORT_VIEW_PROPERTY(possiblePointsColor, NSString)
 RCT_EXPORT_VIEW_PROPERTY(scannerRectCornerColor, NSString)
+RCT_EXPORT_VIEW_PROPERTY(scannerRectCornerWidth, NSInteger)
+
+
+//RCT_EXPORT_VIEW_PROPERTY(scannerRectWidth, NSInteger)
+
+//RCT_EXPORT_VIEW_PROPERTY(scannerRectHeight, NSInteger)
+
+//RCT_EXPORT_VIEW_PROPERTY(scannerRectTop, NSInteger)
+
+//RCT_EXPORT_VIEW_PROPERTY(scannerRectLeft, NSInteger)
+
+//RCT_EXPORT_VIEW_PROPERTY(scannerLineInterval, NSInteger)
+
+
 
 RCT_EXPORT_VIEW_PROPERTY(onBarCodeRead, RCTBubblingEventBlock)
 
@@ -193,6 +198,43 @@ RCT_EXPORT_METHOD(stopSession) {
     });
 }
 
+RCT_EXPORT_METHOD(startFlash) {
+#if TARGET_IPHONE_SIMULATOR
+    return;
+#endif
+    
+    AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn])
+    {
+        BOOL success = [flashLight lockForConfiguration:nil];
+        if (success)
+        {
+            [flashLight setTorchMode:AVCaptureTorchModeOn];
+            [flashLight unlockForConfiguration];
+        }
+    }
+    
+}
+
+RCT_EXPORT_METHOD(stopFlash) {
+#if TARGET_IPHONE_SIMULATOR
+    return;
+#endif
+    
+    AVCaptureDevice *flashLight = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if ([flashLight isTorchAvailable] && [flashLight isTorchModeSupported:AVCaptureTorchModeOn])
+    {
+        BOOL success = [flashLight lockForConfiguration:nil];
+        if (success)
+        {
+            
+            [flashLight setTorchMode:AVCaptureTorchModeOff];
+            [flashLight unlockForConfiguration];
+        }
+    }
+    
+}
+
 //- (void)startSession {
 //#if TARGET_IPHONE_SIMULATOR
 //    return;
@@ -252,6 +294,7 @@ RCT_EXPORT_METHOD(stopSession) {
                 }
                 
                 AudioServicesPlaySystemSound(self.beep_sound_id);
+                AudioServicesPlaySystemSound(1520);
                 
 //                NSLog(@"type = %@, data = %@", metadata.type, metadata.stringValue);
                 self.barcode.onBarCodeRead(@{

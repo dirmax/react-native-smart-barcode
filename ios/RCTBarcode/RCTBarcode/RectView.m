@@ -18,11 +18,11 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    [self addScreenFillRect:ctx rect:rect];
-    [self addCenterClearRect:ctx rect:self.scannerRect];
-    [self addWhiteRect:ctx rect:self.scannerRect];
-    [self addCornerLineWithContext:ctx rect:self.scannerRect];
+    //CGContextRef ctx = UIGraphicsGetCurrentContext();
+    //[self addScreenFillRect:ctx rect:rect];
+    //[self addCenterClearRect:ctx rect:self.scannerRect];
+    //[self addWhiteRect:ctx rect:self.scannerRect];
+    //[self addCornerLineWithContext:ctx rect:self.scannerRect];
 }
 
 

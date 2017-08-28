@@ -21,4 +21,8 @@
 - (void)stopSession;
 - (void)endSession;
 
+- (void)startFlash;
+- (void)stopFlash;
+
+
 @end
